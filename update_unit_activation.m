@@ -7,7 +7,7 @@ function units_wordout = update_unit_activation \
 
 # update word units activation only
 
-t = rows(units_wordout) # get current timestep
+t = rows(units_wordout);    # get current timestep
 
 for i = 1:columns(units_wordout)
 

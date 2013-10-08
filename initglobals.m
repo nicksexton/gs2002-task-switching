@@ -7,6 +7,7 @@ STEP_SIZE = 0.0015
 SQUASHING_PARAM = 0.8     # task demand unit activation scaling between
 			  # trials
 NOISE = 0.006             # SD of gaussian noise
+OUTPUTUNIT_BIAS = -6
 
 
 ## Initialises model and global variables for task switching model
@@ -16,7 +17,6 @@ units_colourout = [0 0 0];
 
 units_wordin = [0 0 0];
 units_colourin = [0 0 0];
-
 units_taskdemand = [0 0]; # [word colour]
 
 

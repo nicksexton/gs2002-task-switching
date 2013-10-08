@@ -4,9 +4,7 @@
 close all;
 clear all;
 
-
 initglobals
-
 
 # temp - apply R input to word output units and update for 100 cycles
 
@@ -24,20 +22,20 @@ while (difference < RESPONSE_THRESHOLD)
 
   inputto_units_wordout = OUTPUTUNIT_BIAS + \
         units_wordin * weights_wordin_wordout + \
-      + units_wordout(t,:) * weights_wordout_wordout + \
-      + units_colourout(t,:) * weights_colourout_wordout + \
-      + units_taskdemand(t,:) * weights_taskdemand_wordout
+        units_wordout(t,:) * weights_wordout_wordout + \
+        units_colourout(t,:) * weights_colourout_wordout + \
+        units_taskdemand(t,:) * weights_taskdemand_wordout;
 
   inputto_units_colourout = OUTPUTUNIT_BIAS + \
         units_colourin * weights_colourin_colourout + \
-      + units_colourout(t,:) * weights_colourout_colourout + \
-      + units_wordout(t,:) * weights_wordout_colourout + \
-      + units_taskdemand(t,:) * weights_taskdemand_colourout
+        units_colourout(t,:) * weights_colourout_colourout + \
+        units_wordout(t,:) * weights_wordout_colourout + \
+        units_taskdemand(t,:) * weights_taskdemand_colourout;
 
   inputto_units_taskdemand = TASKDEMAND_BIAS + \
-        (topdown_input .* TOPDOWN_CONTROL_STRENGTH)
-      + units_wordout(t,:) * weights_wordout_taskdemand + \
-      + units_colourout(t,:) * weights_colourout_taskdemand; #
+        (topdown_input .* TOPDOWN_CONTROL_STRENGTH) + \
+        units_wordout(t,:) * weights_wordout_taskdemand + \
+        units_colourout(t,:) * weights_colourout_taskdemand; #
 				#remember to add FF connections from
 				#input units
 
@@ -80,4 +78,9 @@ figure (1);
 plot ([units_wordout units_colourout]);
 legend ('word out R', 'word out G', 'word out B', 'colour out R', \
 	'colour out G', 'colour out B');
+hold on;
+
+figure (2);
+plot (units_taskdemand);
+legend ('word', 'colour');
 hold on;

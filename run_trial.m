@@ -14,8 +14,11 @@ units_wordin = [1 0 0]
 units_colourin = [0 1 0]
 topdown_input = [1 0] # top down control is either 1 (on) or 0 (off)
 
+t = 1;
+difference = 0; # between biggest and next biggest output
+		# activation (terminating condition)
 
-for t = 1:1000
+while (difference < RESPONSE_THRESHOLD) 
 
 # calculate input to wordout nodes
 
@@ -39,7 +42,6 @@ for t = 1:1000
 				#input units
 
 
-
 # update wordout units
 
   units_wordout = update_unit_activation (units_wordout,
@@ -60,10 +62,22 @@ for t = 1:1000
 					     ACTIVATION_MAX, \
 					     ACTIVATION_MIN);
 
+  # calculate terminating condition
+  [sorted_activations ranking] = \
+      sort([units_wordout(t,:) units_colourout(t,:)], 'descend');
+
+  if (ranking(2)-ranking(1) == abs(3))
+    difference = sorted_activation(1) - sorted_activations(3);
+  else
+    difference = sorted_activations(1) - sorted_activations(2);
+  end
+
+  t = t + 1;  
+
 end
 
 figure (1);
-plot ([0:1:t], [units_wordout units_colourout]);
+plot ([units_wordout units_colourout]);
 legend ('word out R', 'word out G', 'word out B', 'colour out R', \
-	'colour out G', 'colour out B')
+	'colour out G', 'colour out B');
 hold on;

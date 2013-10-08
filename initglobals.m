@@ -8,7 +8,8 @@ SQUASHING_PARAM = 0.8     # task demand unit activation scaling between
 			  # trials
 NOISE = 0.006             # SD of gaussian noise
 OUTPUTUNIT_BIAS = -6
-
+TASKDEMAND_BIAS = -4
+TOPDOWN_CONTROL_STRENGTH = [6 15]
 
 ## Initialises model and global variables for task switching model
 
@@ -32,3 +33,15 @@ weights_colourout_wordout = [+2 -2 -2; -2 +2 -2; -2 -2 +2];
 weights_wordout_wordout     = [ 0 -2 -2; -2  0 -2; -2 -2  0];
 weights_colourout_colourout = [ 0 -2 -2; -2  0 -2; -2 -2  0];
 
+# ouput module -> task demand unit feed forward connections
+weights_wordout_taskdemand   = [1 0; 1 0; 1 0];
+weights_colourout_taskdemand = [0 1; 0 1; 0 1];
+
+# task demand unit -> output module feed back connections
+weights_taskdemand_wordout   = [+2.5 +2.5 +2.5; -2.5 -2.5 -2.5];
+weights_taskdemand_colourout = [-2.5 -2.5 -2.5; +2.5 +2.5 +2.5];
+
+# input module -> task demand units feed forward connections
+# nb HEBBIAN LEARNING not implemented yet
+# is there a base weight value or are these connections purely driven by
+# hebbian learning?

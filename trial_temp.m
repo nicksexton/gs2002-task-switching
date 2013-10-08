@@ -12,20 +12,31 @@ initglobals
 
 units_wordin = [1 0 0] 
 units_colourin = [0 1 0]
+topdown_input = [1 0] # top down control is either 1 (on) or 0 (off)
+
 
 for t = 1:1000
 
 # calculate input to wordout nodes
 
   inputto_units_wordout = OUTPUTUNIT_BIAS + \
-        sum((units_wordin .*  weights_wordin_wordout), 2)' \
-      + sum((units_wordout(t,:) .* weights_wordout_wordout), 2)' \
-      + sum((units_colourout(t,:) .* weights_colourout_wordout), 2)'
+        units_wordin * weights_wordin_wordout + \
+      + units_wordout(t,:) * weights_wordout_wordout + \
+      + units_colourout(t,:) * weights_colourout_wordout + \
+      + units_taskdemand(t,:) * weights_taskdemand_wordout
 
   inputto_units_colourout = OUTPUTUNIT_BIAS + \
-        sum((units_colourin .*  weights_colourin_colourout), 2)' \
-      + sum((units_colourout(t,:) .* weights_colourout_colourout), 2)' \
-      + sum((units_wordout(t,:) .* weights_wordout_colourout), 2)'
+        units_colourin * weights_colourin_colourout + \
+      + units_colourout(t,:) * weights_colourout_colourout + \
+      + units_wordout(t,:) * weights_wordout_colourout + \
+      + units_taskdemand(t,:) * weights_taskdemand_colourout
+
+  inputto_units_taskdemand = TASKDEMAND_BIAS + \
+        (topdown_input .* TOPDOWN_CONTROL_STRENGTH)
+      + units_wordout(t,:) * weights_wordout_taskdemand + \
+      + units_colourout(t,:) * weights_colourout_taskdemand; #
+				#remember to add FF connections from
+				#input units
 
 
 
@@ -42,7 +53,12 @@ for t = 1:1000
 					  STEP_SIZE,
 					  ACTIVATION_MAX, \
 					  ACTIVATION_MIN);
-
+  
+  units_taskdemand = update_unit_activation (units_taskdemand, \
+					     inputto_units_taskdemand, \
+					     STEP_SIZE,
+					     ACTIVATION_MAX, \
+					     ACTIVATION_MIN);
 
 end
 

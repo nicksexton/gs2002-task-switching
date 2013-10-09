@@ -8,8 +8,8 @@ clear all;
 initglobals
 # initstimuli 
 
-BLOCKLENGTH = 100;
-RUNS = 100;
+BLOCKLENGTH = 50;
+RUNS = 50;
 
 stimuli_fixed_word = stimblock_create (BLOCKLENGTH, 1, RUNS);
 stimuli_fixed_colour = stimblock_create (BLOCKLENGTH, 2, RUNS);

@@ -1,22 +1,20 @@
-## temporary skeleton - script for setting up and running model (single
+## script for running a single trial
 ## trial)
 
-close all;
-clear all;
+# IMPORTANT - these variables should be set by any calling script (ie.
+# managing a block of trials)
 
-initglobals
+# units_wordin = [1 0 0] # [R G B]
+# units_colourin = [0 1 0] # [R G B]
+# topdown_input = [1 0] # top down control is either 1 (on) or 0 (off)
 
-# temp - apply R input to word output units and update for 100 cycles
-
-units_wordin = [1 0 0] 
-units_colourin = [0 1 0]
-topdown_input = [1 0] # top down control is either 1 (on) or 0 (off)
-
-t = 1;
+t = 0;
 difference = 0; # between biggest and next biggest output
 		# activation (terminating condition)
 
 while (difference < RESPONSE_THRESHOLD) 
+
+  t = t + 1;  
 
 # calculate input to wordout nodes
 
@@ -65,22 +63,21 @@ while (difference < RESPONSE_THRESHOLD)
       sort([units_wordout(t,:) units_colourout(t,:)], 'descend');
 
   if (ranking(2)-ranking(1) == abs(3))
-    difference = sorted_activation(1) - sorted_activations(3);
+    difference = sorted_activations(1) - sorted_activations(3);
   else
     difference = sorted_activations(1) - sorted_activations(2);
   end
 
-  t = t + 1;  
-
 end
 
-figure (1);
-plot ([units_wordout units_colourout]);
-legend ('word out R', 'word out G', 'word out B', 'colour out R', \
-	'colour out G', 'colour out B');
-hold on;
 
-figure (2);
-plot (units_taskdemand);
-legend ('word', 'colour');
-hold on;
+#figure (1);
+#plot ([units_wordout units_colourout]);
+#legend ('word out R', 'word out G', 'word out B', 'colour out R', \
+#	'colour out G', 'colour out B');
+#hold on;
+
+#figure (2);
+#plot (units_taskdemand);
+#legend ('word', 'colour');
+#hold on;

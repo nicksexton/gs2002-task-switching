@@ -1,18 +1,24 @@
 function stimuli = stimblock_create (blocklength, blocktype, runs)
 
+				# Creates block of Stroop stimuli for
+				# G&S task switching model USAGE:
+				# stimblock_create (length, type, runs)
 				# returns a switching stroop stimuli
-				# block of [blocklength] trials,
-				# [blocktype] may be (1) fixedword (2)
-				# fixedcolour or (3) mixed. runs gives
-				# the length of consecutive trials of
-				# same task. Note blocklength should be
-				# a multiple of runs otherwise things
-				# might be messy. ALSO - function will
-				# generate 1/3 cong, 1/3 incong and 1/3
-				# neutral trials
+				# block of [length] trials, [type] may
+				# be (1) fixedword (2) fixedcolour or
+				# (3) mixed. runs gives the length of
+				# consecutive trials of same task. Note
+				# blocklength should be a multiple of
+				# runs otherwise things might be messy.
+				# ALSO - function will generate 1/3
+				# cong, 1/3 incong and 1/3 neutral
+				# trials FORMAT: [WORD COLOUR TYPE TASK]
+				# STIMULI TYPE: neutral = 0, congruent =
+				# 1, incongruent = 2 TASK: word reading
+				# = 1, colour naming = 2 COLOURS: R = 1,
+				# G = 2, B = 3, N(one) = 0
 
 stim_type = randi ([0 2], blocklength, 1);
-
 stimuli = [];
 
 for trial = 1:blocklength

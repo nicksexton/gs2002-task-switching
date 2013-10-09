@@ -1,11 +1,8 @@
 # skeleton for running block of trials
 
-close all;
-clear all;
-initglobals
-initstimuli 
 
-STIM_THIS_BLOCK = stimuli_fixed_colour;
+
+# STIM_THIS_BLOCK = stimuli_fixed_colour;
 output = [];
 
 
@@ -15,7 +12,8 @@ for trial = 1:BLOCKLENGTH
   units_colourin  = [0 0 0];
   units_wordout   = [0 0 0];
   units_colourout = [0 0 0];
-  units_taskdemand = units_taskdemand * SQUASHING_PARAM;
+  topdown_inputs  = [0 0];
+  units_taskdemand = units_taskdemand(rows(units_taskdemand),:) * SQUASHING_PARAM;
 
   # STIM_THIS_BLOCK format: [WORD COLOUR TYPE TASK]
   if (STIM_THIS_BLOCK(trial,1) > 0)
@@ -44,5 +42,7 @@ for trial = 1:BLOCKLENGTH
   else
     output(trial,:) = [response 0 t];
   end
+
+  printf ("%d ", trial);
 
 end

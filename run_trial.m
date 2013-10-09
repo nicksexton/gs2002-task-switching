@@ -44,19 +44,22 @@ while (difference < RESPONSE_THRESHOLD)
 					  inputto_units_wordout, \
 					  STEP_SIZE,
 					  ACTIVATION_MAX, \
-					  ACTIVATION_MIN);
+					  ACTIVATION_MIN, \
+					  NOISE);
   
   units_colourout = update_unit_activation (units_colourout,
-					  inputto_units_colourout, \
-					  STEP_SIZE,
-					  ACTIVATION_MAX, \
-					  ACTIVATION_MIN);
+					    inputto_units_colourout, \
+					    STEP_SIZE,
+					    ACTIVATION_MAX, \
+					    ACTIVATION_MIN, \
+					    NOISE);
   
   units_taskdemand = update_unit_activation (units_taskdemand, \
 					     inputto_units_taskdemand, \
 					     STEP_SIZE,
 					     ACTIVATION_MAX, \
-					     ACTIVATION_MIN);
+					     ACTIVATION_MIN, \
+					     NOISE); 
 
   # calculate terminating condition
   [sorted_activations ranking] = \

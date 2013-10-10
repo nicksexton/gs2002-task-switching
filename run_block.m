@@ -13,7 +13,8 @@ for trial = 1:BLOCKLENGTH
   units_wordout   = [0 0 0];
   units_colourout = [0 0 0];
   topdown_input   = [0 0];
-  units_taskdemand = units_taskdemand(rows(units_taskdemand),:) * SQUASHING_PARAM;
+  units_taskdemand = units_taskdemand(rows(units_taskdemand),:) \
+      * (1-SQUASHING_PARAM);
 
   # STIM_THIS_BLOCK format: [WORD COLOUR TYPE TASK]
   if (STIM_THIS_BLOCK(trial,1) > 0)

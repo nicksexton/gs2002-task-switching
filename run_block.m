@@ -5,6 +5,9 @@
 # STIM_THIS_BLOCK = stimuli_fixed_colour;
 output = [];
 
+units_taskdemand = [0 0]; # need to prevent spill over of activation
+			  # between trials
+
 
 for trial = 1:BLOCKLENGTH
   
@@ -13,7 +16,8 @@ for trial = 1:BLOCKLENGTH
   units_wordout   = [0 0 0];
   units_colourout = [0 0 0];
   topdown_input   = [0 0];
-  units_taskdemand = units_taskdemand(rows(units_taskdemand),:) * SQUASHING_PARAM;
+  units_taskdemand = units_taskdemand(rows(units_taskdemand),:) \
+      * (1-SQUASHING_PARAM);
 
   # STIM_THIS_BLOCK format: [WORD COLOUR TYPE TASK]
   if (STIM_THIS_BLOCK(trial,1) > 0)
@@ -38,9 +42,9 @@ for trial = 1:BLOCKLENGTH
   if (response == \
       STIM_THIS_BLOCK(trial,STIM_THIS_BLOCK(trial,4)))
       
-    output(trial,:) = [response 1 t];
+    output(trial,:) = [response 1 t]; # correct
   else
-    output(trial,:) = [response 0 t];
+    output(trial,:) = [response 0 t]; # incorrect
   end
 
   printf ("%d ", trial);

@@ -37,7 +37,6 @@ while (difference < RESPONSE_THRESHOLD)
       units_wordin * weights_wordin_taskdemand + \
       units_colourin * weights_colourin_taskdemand;
 
-  weights_wordin_taskdemand
 
 
 # update wordout units
@@ -81,7 +80,6 @@ weights_wordin_taskdemand = LEARNING_RATE * units_wordin' * \
     units_taskdemand(t,:);
 weights_colourin_taskdemand = LEARNING_RATE * units_colourin' * \
     units_taskdemand(t,:);
-
 
 
 #figure (1);

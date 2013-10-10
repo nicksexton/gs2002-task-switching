@@ -19,23 +19,25 @@ while (difference < RESPONSE_THRESHOLD)
 # calculate input to wordout nodes
 
   inputto_units_wordout = OUTPUTUNIT_BIAS + \
-        units_wordin * weights_wordin_wordout + \
-        units_wordout(t,:) * weights_wordout_wordout + \
-        units_colourout(t,:) * weights_colourout_wordout + \
-        units_taskdemand(t,:) * weights_taskdemand_wordout;
+      units_wordin * weights_wordin_wordout + \
+      units_wordout(t,:) * weights_wordout_wordout + \
+      units_colourout(t,:) * weights_colourout_wordout + \
+      units_taskdemand(t,:) * weights_taskdemand_wordout;
 
   inputto_units_colourout = OUTPUTUNIT_BIAS + \
-        units_colourin * weights_colourin_colourout + \
-        units_colourout(t,:) * weights_colourout_colourout + \
-        units_wordout(t,:) * weights_wordout_colourout + \
-        units_taskdemand(t,:) * weights_taskdemand_colourout;
+      units_colourin * weights_colourin_colourout + \
+      units_colourout(t,:) * weights_colourout_colourout + \
+      units_wordout(t,:) * weights_wordout_colourout + \
+      units_taskdemand(t,:) * weights_taskdemand_colourout;
 
   inputto_units_taskdemand = TASKDEMAND_BIAS + \
-        (topdown_input .* TOPDOWN_CONTROL_STRENGTH) + \
-        units_wordout(t,:) * weights_wordout_taskdemand + \
-        units_colourout(t,:) * weights_colourout_taskdemand; #
-				#remember to add FF connections from
-				#input units
+      (topdown_input .* TOPDOWN_CONTROL_STRENGTH) + \
+      units_wordout(t,:) * weights_wordout_taskdemand + \
+      units_colourout(t,:) * weights_colourout_taskdemand + \
+      units_wordin * weights_wordin_taskdemand + \
+      units_colourin * weights_colourin_taskdemand;
+
+  weights_wordin_taskdemand
 
 
 # update wordout units
@@ -72,6 +74,14 @@ while (difference < RESPONSE_THRESHOLD)
   end
 
 end
+
+
+# update associative weights
+weights_wordin_taskdemand = LEARNING_RATE * units_wordin' * \
+    units_taskdemand(t,:);
+weights_colourin_taskdemand = LEARNING_RATE * units_colourin' * \
+    units_taskdemand(t,:);
+
 
 
 #figure (1);

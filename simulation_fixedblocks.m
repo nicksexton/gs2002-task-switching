@@ -68,21 +68,28 @@ end
   mean_RT = [mean(word_neutral(:,3)) mean(word_incongruent(:,3)) \
 	     mean(word_congruent(:,3));
 	     mean(colour_neutral(:,3)) mean(colour_incongruent(:,3)) \
-	      mean(colour_congruent(:,3))]
+	     mean(colour_congruent(:,3))]
 
-
+  sd_RT = [std(word_neutral(:,3)) std(word_incongruent(:,3)) \
+	   std(word_congruent(:,3));
+	   std(colour_neutral(:,3)) std(colour_incongruent(:,3)) \
+	   std(colour_congruent(:,3))]
 
 
    # plot graph
 
-   figure (1);
-   plot ([1 2 3], mean_RT);
-   legend (["word reading"; "colour naming"]);
-   set (gca, 'XTick', [1 2 3])
-   set (gca, 'XTickLabel', ["neutral"; "incongruent"; "congruent"]);
+  figure (1);
+  plot ([1 2 3], mean_RT);
+  # hold on;
+  # errorbar([1 2 3; 1 2 3], mean_RT, sd_RT);
+  legend (["word reading"; "colour naming"]);
+  set (gca, 'XTick', [1 2 3])
+  set (gca, 'XTickLabel', ["neutral"; "incongruent"; "congruent"]);
   hold on;
+  print ("stroop.pdf", 'pdf')
 
 
 
 
 
+ 

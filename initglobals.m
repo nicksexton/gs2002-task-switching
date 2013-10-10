@@ -10,6 +10,7 @@ NOISE = 0.006             # SD of gaussian noise
 OUTPUTUNIT_BIAS = -6
 TASKDEMAND_BIAS = -4
 TOPDOWN_CONTROL_STRENGTH = [6 15]
+LEARNING_RATE = 1.0
 
 ## Initialises model and global variables for task switching model
 
@@ -42,6 +43,7 @@ weights_taskdemand_wordout   = [+2.5 +2.5 +2.5; -2.5 -2.5 -2.5];
 weights_taskdemand_colourout = [-2.5 -2.5 -2.5; +2.5 +2.5 +2.5];
 
 # input module -> task demand units feed forward connections
-# nb HEBBIAN LEARNING not implemented yet
 # is there a base weight value or are these connections purely driven by
 # hebbian learning?
+weights_wordin_taskdemand  = [0 0; 0 0; 0 0]
+weights_colourin_taskdemand = [0 0; 0 0; 0 0]

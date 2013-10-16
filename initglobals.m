@@ -6,7 +6,7 @@ RESPONSE_THRESHOLD = 0.15
 STEP_SIZE = 0.0015
 SQUASHING_PARAM = 0.8     # task demand unit activation scaling between
 			  # trials
-NOISE = 0.006             # SD of gaussian noise
+NOISE = 0.000             # SD of gaussian noise
 OUTPUTUNIT_BIAS = -6
 TASKDEMAND_BIAS = -4
 TOPDOWN_CONTROL_STRENGTH = [6 15]

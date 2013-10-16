@@ -64,9 +64,10 @@ error_rate = mean(allsubjects_errors);
   hold on;
 
   printf ("\n switch cost: word->colour: %f cycles", \
-	  (mean_RT(5) - sum(mean_RT(6:8)) / 3))
+	  (mean_RT(5) - sum(mean_RT(6:8)) / 3));
   printf ("\n switch cost: colour->word: %f cycles", \
-	  (mean_RT(9) - sum(mean_RT(10:12)) / 3))
+	  (mean_RT(9) - sum(mean_RT(10:12)) / 3));
+  printf ("\n");
 
 
 

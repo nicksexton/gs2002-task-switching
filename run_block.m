@@ -5,6 +5,9 @@
 # STIM_THIS_BLOCK = stimuli_fixed_colour;
 output = [];
 
+units_taskdemand = [0 0]; # need to prevent spill over of activation
+			  # between trials
+
 
 for trial = 1:BLOCKLENGTH
   
@@ -39,9 +42,9 @@ for trial = 1:BLOCKLENGTH
   if (response == \
       STIM_THIS_BLOCK(trial,STIM_THIS_BLOCK(trial,4)))
       
-    output(trial,:) = [response 1 t];
+    output(trial,:) = [response 1 t]; # correct
   else
-    output(trial,:) = [response 0 t];
+    output(trial,:) = [response 0 t]; # incorrect
   end
 
   printf ("%d ", trial);

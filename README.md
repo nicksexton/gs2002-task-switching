@@ -29,10 +29,10 @@ run_block.m	  <- runs a block of trials of length BLOCKLENGTH
 stimblock_create.m  <- function stimblock_create(blocklength, type, runs) 
 		    - creates a block of stimuli of the format 
 
-# FORMAT: [WORD COLOUR TYPE TASK]
-# STIMULI TYPE: neutral = 0, congruent = 1, incongruent = 2
-# TASK: word reading = 1, colour naming = 2
-# COLOURS: R = 1, G = 2, B = 3, N(one) = 0
+FORMAT: [WORD COLOUR TYPE TASK]
+STIMULI TYPE: neutral = 0, congruent = 1, incongruent = 2
+TASK: word reading = 1, colour naming = 2
+COLOURS: R = 1, G = 2, B = 3, N(one) = 0
 
 
 A trial consists of:

@@ -1,69 +1,69 @@
-## script for running a single trial
-## trial)
+%% script for running a single trial
+%% trial)
 
-# IMPORTANT - these variables should be set by any calling script (ie.
-# managing a block of trials)
+% IMPORTANT - these variables should be set by any calling script (ie.
+% managing a block of trials)
 
-# units_wordin = [1 0 0] # [R G B]
-# units_colourin = [0 1 0] # [R G B]
-# topdown_input = [1 0] # top down control is either 1 (on) or 0 (off)
+% units_wordin = [1 0 0] % [R G B]
+% units_colourin = [0 1 0] % [R G B]
+% topdown_input = [1 0] % top down control is either 1 (on) or 0 (off)
 
 t = 0;
-difference = 0; # between biggest and next biggest output
-		# activation (terminating condition)
+difference = 0; % between biggest and next biggest output
+                % activation (terminating condition)
 
 while (difference < RESPONSE_THRESHOLD) 
 
   t = t + 1;  
 
-# calculate input to wordout nodes
+% calculate input to wordout nodes
 
-  inputto_units_wordout = OUTPUTUNIT_BIAS + \
-      units_wordin * weights_wordin_wordout + \
-      units_wordout(t,:) * weights_wordout_wordout + \
-      units_colourout(t,:) * weights_colourout_wordout + \
+  inputto_units_wordout = OUTPUTUNIT_BIAS + ...
+      units_wordin * weights_wordin_wordout + ...
+      units_wordout(t,:) * weights_wordout_wordout + ...
+      units_colourout(t,:) * weights_colourout_wordout + ...
       units_taskdemand(t,:) * weights_taskdemand_wordout;
 
-  inputto_units_colourout = OUTPUTUNIT_BIAS + \
-      units_colourin * weights_colourin_colourout + \
-      units_colourout(t,:) * weights_colourout_colourout + \
-      units_wordout(t,:) * weights_wordout_colourout + \
+  inputto_units_colourout = OUTPUTUNIT_BIAS + ...
+      units_colourin * weights_colourin_colourout + ...
+      units_colourout(t,:) * weights_colourout_colourout + ...
+      units_wordout(t,:) * weights_wordout_colourout + ...
       units_taskdemand(t,:) * weights_taskdemand_colourout;
 
-  inputto_units_taskdemand = TASKDEMAND_BIAS + \
-      (topdown_input .* TOPDOWN_CONTROL_STRENGTH) + \
-      units_wordout(t,:) * weights_wordout_taskdemand + \
-      units_colourout(t,:) * weights_colourout_taskdemand + \
-      units_wordin * weights_wordin_taskdemand + \
+  inputto_units_taskdemand = TASKDEMAND_BIAS + ...
+      (topdown_input .* TOPDOWN_CONTROL_STRENGTH) + ...
+      units_wordout(t,:) * weights_wordout_taskdemand + ...
+      units_colourout(t,:) * weights_colourout_taskdemand + ...
+      units_wordin * weights_wordin_taskdemand + ...
       units_colourin * weights_colourin_taskdemand;
 
 
 
-# update wordout units
+% update wordout units
 
-  units_wordout = update_unit_activation (units_wordout,
-					  inputto_units_wordout, \
-					  STEP_SIZE,
-					  ACTIVATION_MAX, \
-					  ACTIVATION_MIN, \
+  units_wordout = update_unit_activation (units_wordout, ...
+					  inputto_units_wordout, ...
+					  STEP_SIZE, ...
+					  ACTIVATION_MAX, ...
+					  ACTIVATION_MIN, ...
 					  NOISE);
   
-  units_colourout = update_unit_activation (units_colourout,
-					    inputto_units_colourout, \
-					    STEP_SIZE,
-					    ACTIVATION_MAX, \
-					    ACTIVATION_MIN, \
+  units_colourout = update_unit_activation (units_colourout, ...
+					    inputto_units_colourout, ...
+					    STEP_SIZE, ...
+					    ACTIVATION_MAX, ...
+					    ACTIVATION_MIN, ...
 					    NOISE);
   
-  units_taskdemand = update_unit_activation (units_taskdemand, \
-					     inputto_units_taskdemand, \
-					     STEP_SIZE,
-					     ACTIVATION_MAX, \
-					     ACTIVATION_MIN, \
+  units_taskdemand = update_unit_activation (units_taskdemand, ...
+					     inputto_units_taskdemand, ...
+					     STEP_SIZE, ...
+					     ACTIVATION_MAX, ...
+					     ACTIVATION_MIN, ...
 					     NOISE); 
 
-  # calculate terminating condition
-  [sorted_activations ranking] = \
+  % calculate terminating condition
+  [sorted_activations, ranking] = ...
       sort([units_wordout(t,:) units_colourout(t,:)], 'descend');
 
   if (ranking(2)-ranking(1) == abs(3))
@@ -75,20 +75,20 @@ while (difference < RESPONSE_THRESHOLD)
 end
 
 
-# update associative weights
-weights_wordin_taskdemand = LEARNING_RATE * units_wordin' * \
+% update associative weights
+weights_wordin_taskdemand = LEARNING_RATE * units_wordin' * ...
     units_taskdemand(t,:);
-weights_colourin_taskdemand = LEARNING_RATE * units_colourin' * \
+weights_colourin_taskdemand = LEARNING_RATE * units_colourin' * ...
     units_taskdemand(t,:);
 
 
-#figure (1);
-#plot ([units_wordout units_colourout]);
-#legend ('word out R', 'word out G', 'word out B', 'colour out R', \
-#	'colour out G', 'colour out B');
-#hold on;
+%figure (1);
+%plot ([units_wordout units_colourout]);
+%legend ('word out R', 'word out G', 'word out B', 'colour out R', ...
+%	'colour out G', 'colour out B');
+%hold on;
 
-#figure (2);
-#plot (units_taskdemand);
-#legend ('word', 'colour');
-#hold on;
+%figure (2);
+%plot (units_taskdemand);
+%legend ('word', 'colour');
+%hold on;

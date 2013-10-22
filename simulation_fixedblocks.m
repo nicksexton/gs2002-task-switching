@@ -1,20 +1,20 @@
-# analysis of model performance on fixed blocks
-# corresponds to Shallice & Gilbert 2002 p.311
-# main empirical effect: Stroop interference and facilitation
-# on congruent, incongruent and neutral trials
+% analysis of model performance on fixed blocks
+% corresponds to Shallice & Gilbert 2002 p.311
+% main empirical effect: Stroop interference and facilitation
+% on congruent, incongruent and neutral trials
 
 close all;
 clear all;
 initglobals
-# initstimuli 
+% initstimuli 
 
-BLOCKLENGTH = 150;
-RUNS = 150;
+BLOCKLENGTH = 400;
+RUNS = 400;
 
 stimuli_fixed_word = stimblock_create (BLOCKLENGTH, 1, RUNS);
 stimuli_fixed_colour = stimblock_create (BLOCKLENGTH, 2, RUNS);
 
-# run simulations
+% run simulations
 
 STIM_THIS_BLOCK = stimuli_fixed_word;
 run_block;
@@ -25,7 +25,7 @@ run_block;
 output_fixed_colour = output;
 
 
-# now plot the data
+% now plot the data
 
 word_congruent = [];
 word_incongruent = [];
@@ -38,7 +38,7 @@ colour_neutral = [];
 for trial = 1:BLOCKLENGTH
 
 
-# split word reading blocks into stimulus type
+% split word reading blocks into stimulus type
   if (stimuli_fixed_word(trial,3) == 0)
     word_neutral = [word_neutral; output_fixed_word(trial,:)];
 
@@ -50,7 +50,7 @@ for trial = 1:BLOCKLENGTH
 
   end
 
-# split colour naming blocks into stimulus type
+% split colour naming blocks into stimulus type
   if (stimuli_fixed_colour(trial,3) == 0)
     colour_neutral = [colour_neutral; output_fixed_colour(trial,:)];
 
@@ -64,33 +64,33 @@ for trial = 1:BLOCKLENGTH
 
 end
 
-  # RTs for word naming
-  mean_RT = [mean(word_neutral(:,3)) mean(word_incongruent(:,3)) \
-	     mean(word_congruent(:,3));
-	     mean(colour_neutral(:,3)) mean(colour_incongruent(:,3)) \
+  % RTs for word naming
+  mean_RT = [mean(word_neutral(:,3)) mean(word_incongruent(:,3)) ...
+	     mean(word_congruent(:,3)); ...
+	     mean(colour_neutral(:,3)) mean(colour_incongruent(:,3)) ...
 	     mean(colour_congruent(:,3))]
 
-  sd_RT = [std(word_neutral(:,3)) std(word_incongruent(:,3)) \
-	   std(word_congruent(:,3));
-	   std(colour_neutral(:,3)) std(colour_incongruent(:,3)) \
+  sd_RT = [std(word_neutral(:,3)) std(word_incongruent(:,3)) ...
+	   std(word_congruent(:,3)); ...
+	   std(colour_neutral(:,3)) std(colour_incongruent(:,3)) ...
 	   std(colour_congruent(:,3))]
 
 
-   # plot graph
+   % plot graph
 
   figure (1);
   plot ([1 2 3], mean_RT);
   hold on;
   h1 = errorbar([1 2 3; 1 2 3], mean_RT, sd_RT);
-  set(h1, "marker", "+");
-  set(h1, "linestyle", "none");
+  %set(h1, 'marker', '+');
+  %set(h1, 'linestyle', 'none');
 
-  legend (["word reading"; "colour naming"]);
+  % legend (['word reading'; 'colour naming']);
   set (gca, 'XTick', [1 2 3])
-  set (gca, 'XTickLabel', [""; "neutral"; "incongruent"; "congruent"; ""]);
+  %set (gca, 'XTickLabel', [''; 'neutral'; 'incongruent'; 'congruent'; '']);
   axis([0,4,0,200]);
   hold on;
-  # print ("stroop.pdf", 'pdf')
+  % print ("stroop.pdf", 'pdf')
 
 
 

@@ -80,13 +80,17 @@ end
 
   figure (1);
   plot ([1 2 3], mean_RT);
-  # hold on;
-  # errorbar([1 2 3; 1 2 3], mean_RT, sd_RT);
+  hold on;
+  h1 = errorbar([1 2 3; 1 2 3], mean_RT, sd_RT);
+  set(h1, "marker", "+");
+  set(h1, "linestyle", "none");
+
   legend (["word reading"; "colour naming"]);
   set (gca, 'XTick', [1 2 3])
-  set (gca, 'XTickLabel', ["neutral"; "incongruent"; "congruent"]);
+  set (gca, 'XTickLabel', [""; "neutral"; "incongruent"; "congruent"; ""]);
+  axis([0,4,0,200]);
   hold on;
-  print ("stroop.pdf", 'pdf')
+  # print ("stroop.pdf", 'pdf')
 
 
 

@@ -1,8 +1,8 @@
 
-# clear all;
+clear all;
 close all;
 
-# initglobals;
+initglobals;
 
 
 

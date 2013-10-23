@@ -50,6 +50,9 @@ for trial = 1:BLOCKLENGTH
     output(trial,:) = [response 0 t]; % incorrect
   end
 
-  fprintf ('%d ', trial);
+% print progress report to screen
+%  if mod(trial,100) == 0
+%        fprintf ('%d ', trial);
+%  end
 
 end

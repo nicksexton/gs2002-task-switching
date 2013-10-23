@@ -77,23 +77,59 @@ end
 
 
    % plot graph
+   % Only interested in colour naming for now
+   % NB. Miyake et al. dependent measure for response inhibition in Stroop
+   % is mean incongruent - mean neutral for colour naming
 
+   
   figure (1);
-  plot ([1 2 3], mean_RT);
+  plot ([1 2 3], mean_RT(2,:));
   hold on;
-  h1 = errorbar([1 2 3; 1 2 3], mean_RT, sd_RT);
+  h1 = errorbar([1 2 3], mean_RT(2,:), sd_RT(2,:));
   %set(h1, 'marker', '+');
   %set(h1, 'linestyle', 'none');
 
   % legend (['word reading'; 'colour naming']);
   set (gca, 'XTick', [1 2 3])
-  %set (gca, 'XTickLabel', [''; 'neutral'; 'incongruent'; 'congruent'; '']);
+  set (gca, 'XTickLabel', {'neutral', 'incongruent', 'congruent'});
   axis([0,4,0,200]);
   hold on;
   % print ("stroop.pdf", 'pdf')
 
 
+    %% let's plot a histogram to see what is going on
+    %figure(2);
+    %hist (colour_incongruent(:,3), [0:5:400]);
+    %title ('Distribution of response times for incongruent colour naming trials');
+    %hist_incongruent = findobj(gca, 'Type', 'Patch');
+    %set (hist_incongruent, 'FaceColor', [0 .5 .5], 'EdgeColor', [0 .5 .5]);
+    %axis ([0 400 0 40]);
+    
+    %figure (3);
+    %hist (colour_neutral(:,3), [0:5:400]);
+    %title ('Distribution of response times for neutral colour naming trials');
+    %hist_incongruent = findobj(gca, 'Type', 'Patch');
+    %set (hist_incongruent, 'FaceColor', [.5 .0 .5], 'EdgeColor', [.5 .0 .5]);
+    %axis ([0 400 0 40]);
+    
+    %% Boxplots
+    figure (2);
+   
+    % create matrix suitable for boxplotting
+    colour_data_all = ([ ...
+            colour_neutral(:,3) linspace(1,1, size(colour_neutral,1))'; ...
+            colour_congruent(:,3) linspace(2,2,size(colour_congruent,1))'; ...
+            colour_incongruent(:,3) linspace(3,3,size(colour_incongruent,1))' ...
+            ]);
+   
+    %colour_data_boxplot_positions = [1 2 3];    
+    boxplot (colour_data_all(:,1), colour_data_all(:,2));
+    hold on;
 
-
+    set (gca, 'XTick', [1 2 3])
+    set (gca, 'XTickLabel', {'neutral', 'congruent', 'incongruent'});
+    ylim ([0 400]);
+    title ('Boxplot of Reaction Times for colour naming trials');
+    
 
  

@@ -1,4 +1,15 @@
 gs2002-task-switching
+
+Branch - indiff_fixed 
+===================== 
+implementing variant of switching stroop model which simulates 
+between-subjects differences by adding noise to connection weights
+
+
+
+
+
+
 =====================
 Implementation of the Gilbert & Shallice 2002 task switching model in Octave
 

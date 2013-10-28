@@ -35,7 +35,8 @@ while (difference < RESPONSE_THRESHOLD)
       units_wordout(t,:) * weights_wordout_taskdemand + ...
       units_colourout(t,:) * weights_colourout_taskdemand + ...
       units_wordin * weights_wordin_taskdemand + ...
-      units_colourin * weights_colourin_taskdemand;
+      units_colourin * weights_colourin_taskdemand + ...
+      units_taskdemand(t,:) * weights_taskdemand_taskdemand;
 
 
 
@@ -82,13 +83,13 @@ weights_colourin_taskdemand = LEARNING_RATE * units_colourin' * ...
     units_taskdemand(t,:);
 
 
-%figure (1);
-%plot ([units_wordout units_colourout]);
-%legend ('word out R', 'word out G', 'word out B', 'colour out R', ...
-%	'colour out G', 'colour out B');
-%hold on;
-
-%figure (2);
-%plot (units_taskdemand);
-%legend ('word', 'colour');
-%hold on;
+% figure (1);
+% plot ([units_wordout units_colourout]);
+% legend ('word out R', 'word out G', 'word out B', 'colour out R', ...
+% 	'colour out G', 'colour out B');
+% hold on;
+% 
+% figure (2);
+% plot (units_taskdemand);
+% legend ('word', 'colour');
+% hold on;

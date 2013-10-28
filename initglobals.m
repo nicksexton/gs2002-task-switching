@@ -42,6 +42,9 @@ weights_colourout_taskdemand = [0 1; 0 1; 0 1];
 weights_taskdemand_wordout   = [+2.5 +2.5 +2.5; -2.5 -2.5 -2.5];
 weights_taskdemand_colourout = [-2.5 -2.5 -2.5; +2.5 +2.5 +2.5];
 
+% task demand units lateral connections
+weights_taskdemand_taskdemand = [0 -2; -2 0];
+
 % input module -> task demand units feed forward connections
 % is there a base weight value or are these connections purely driven by
 % hebbian learning?

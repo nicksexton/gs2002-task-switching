@@ -12,7 +12,7 @@ initglobals
 
 
 
-SUBJECTS = 10;
+SUBJECTS = 100;
 NOISE_TASKDEMAND = 1;   % controls SD of gaussian noise added to task demand 
                         % weights individually for each subject
 data_allsubs_colour_neutral = [];
@@ -22,22 +22,27 @@ data_allsubs_colour_incongruent = [];
                         
                         
 % initstimuli 
-BLOCKLENGTH = 400;
-RUNS = 400;
+BLOCKLENGTH = 100;
+RUNS = 100;
 
 stimuli_fixed_word = stimblock_create (BLOCKLENGTH, 1, RUNS);
 stimuli_fixed_colour = stimblock_create (BLOCKLENGTH, 2, RUNS);
 
 
+allsubs_IV_DV = [];
+
 % Loop - simulates 10 different subjects
 for subject = 1:SUBJECTS
 
-    taskdemand_pos = 2.5 + NOISE_TASKDEMAND * randn(1);
-    taskdemand_neg = -2.5 + NOISE_TASKDEMAND * randn(1);
+    % hold neg task demand activation constant
+    %taskdemand_pos = 2.5 + NOISE_TASKDEMAND * randn(1);
+    taskdemand_pos = 2.5;
+    IV_td_noise_parameter = -2.5 + NOISE_TASKDEMAND * randn(1);
+    taskdemand_neg = IV_td_noise_parameter;
 
-% Print the subject number to the editor to monitor progress of simulation
-fprintf ('SUBJECT:%d\t TD weights %3.2f %3.2f\t', subject, taskdemand_pos, taskdemand_neg)
-    
+    % Print the subject number to the editor to monitor progress of simulation
+    fprintf ('SUBJECT:%d\t TD weights %3.2f %3.2f\t', subject, taskdemand_pos, taskdemand_neg)
+
     weights_taskdemand_wordout = ...
         [taskdemand_pos taskdemand_pos taskdemand_pos; ...
          taskdemand_neg taskdemand_neg taskdemand_neg];
@@ -100,8 +105,14 @@ fprintf ('SUBJECT:%d\t TD weights %3.2f %3.2f\t', subject, taskdemand_pos, taskd
     end
 
   end
-fprintf ('\tRTi-RTc: %4.2f\n', mean(colour_incongruent(:,3)) - mean(colour_congruent(:,3)));
+
+DV_response_inhibition = mean(colour_incongruent(:,3)) - mean(colour_congruent(:,3));
+fprintf ('\tRTi-RTc: %4.2f\n', DV_response_inhibition);
   
+    % also put this in a matrix to plot scatter graphs of all subjects
+    allsubs_IV_DV = [allsubs_IV_DV; ...
+            IV_td_noise_parameter DV_response_inhibition];
+
   %% aggregate data from all subjects
   
   % colour naming only for now
@@ -150,4 +161,13 @@ end
     title ('Boxplot of Reaction Times for colour naming: incongruent trials');
     
 
+    % plot scatter graph of varying parameter vs. DV (RTi - RTc)
+    figure (4);
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,2));
+    hold on;
+    xlabel ('TD unit inhibition of output units');
+    ylabel ('Response Inhibition score (RTi - RTc)');
     
+    %%
+    r = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,2));
+    fprintf ('R = %4.3f\n', r(1,2));

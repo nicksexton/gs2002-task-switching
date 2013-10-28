@@ -34,23 +34,10 @@ allsubs_IV_DV = [];
 % Loop - simulates 10 different subjects
 for subject = 1:SUBJECTS
 
-    % hold neg task demand activation constant
-    %taskdemand_pos = 2.5 + NOISE_TASKDEMAND * randn(1);
-    taskdemand_pos = 2.5;
-    IV_td_noise_parameter = -2.5 + NOISE_TASKDEMAND * randn(1);
-    taskdemand_neg = IV_td_noise_parameter;
-
-    % Print the subject number to the editor to monitor progress of simulation
-    fprintf ('SUBJECT:%d\t TD weights %3.2f %3.2f\t', subject, taskdemand_pos, taskdemand_neg)
-
-    weights_taskdemand_wordout = ...
-        [taskdemand_pos taskdemand_pos taskdemand_pos; ...
-         taskdemand_neg taskdemand_neg taskdemand_neg];
+    %% Set individually varying parameters
     
-    weights_taskdemand_colourout = ...
-        [taskdemand_neg taskdemand_neg taskdemand_neg; ...
-         taskdemand_pos taskdemand_pos taskdemand_pos]; 
-     
+    vary_parameters;
+    % note vary_parameters script should update IV_parameter
 
     %% run simulations
 
@@ -111,7 +98,7 @@ fprintf ('\tRTi-RTc: %4.2f\n', DV_response_inhibition);
   
     % also put this in a matrix to plot scatter graphs of all subjects
     allsubs_IV_DV = [allsubs_IV_DV; ...
-            IV_td_noise_parameter DV_response_inhibition];
+            IV_parameter DV_response_inhibition];
 
   %% aggregate data from all subjects
   

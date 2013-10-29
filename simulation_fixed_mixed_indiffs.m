@@ -11,7 +11,7 @@ initglobals
 
 
 
-SUBJECTS = 100;
+SUBJECTS = 200;
 NOISE_TASKDEMAND = 1;   % controls SD of gaussian noise added to task demand 
                         % weights individually for each subject
 data_allsubs_colour_neutral = [];
@@ -20,11 +20,11 @@ data_allsubs_colour_incongruent = [];
             
                         
 % initstimuli 
-FIXED_BLOCKLENGTH = 50;
-FIXED_RUNS = 50;
-MIXED_BLOCKLENGTH = 12;
-MIXED_RUNS = 4;
-BLOCKS = 30;
+FIXED_BLOCKLENGTH = 50; % number of fixed block trials
+FIXED_RUNS = 50; % needs to be equal to BLOCKLENGTH
+MIXED_BLOCKLENGTH = 12; % needs to be 12 for mixed trials
+MIXED_RUNS = 4; % needs to be 4 for mixed trials
+BLOCKS = 50; % number of mixed block trials
 
 % stimuli_fixed_word = stimblock_create (FIXED_BLOCKLENGTH, 1, FIXED_RUNS);
 stimuli_fixed_colour = stimblock_create (FIXED_BLOCKLENGTH, 2, FIXED_RUNS);
@@ -198,6 +198,7 @@ end
     figure (4);
     scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,2));
     hold on;
+    title ('Scatter plot of IV vs RI score (RTi - RTc)')
     xlabel ('TD unit inhibition of output units');
     ylabel ('Response Inhibition score (RTi - RTc)');
     
@@ -207,6 +208,7 @@ end
     correlation_IV_TScw = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,4));
     correlation_RI_TSwc = corrcoef (allsubs_IV_DV(:,2), allsubs_IV_DV(:,3));
     correlation_RI_TScw = corrcoef (allsubs_IV_DV(:,2), allsubs_IV_DV(:,4));
+    correlation_TSwc_TScw = corrcoef (allsubs_IV_DV(:,3), allsubs_IV_DV(:,4));
     
     fprintf ('correlations:\n');
     fprintf ('IV with RI: R = %4.3f\n', correlation_IV_RI(1,2));
@@ -214,6 +216,7 @@ end
     fprintf ('IV with TScw: R = %4.3f\n', correlation_IV_TScw(1,2));
     fprintf ('RI with TSwc: R = %4.3f\n', correlation_RI_TSwc(1,2));
     fprintf ('RI with TScw: R = %4.3f\n', correlation_RI_TScw(1,2));
+    fprintf ('TSwc with TScw: R = %4.3f\n', correlation_TSwc_TScw(1,2));
     
     
     %% Plot graphs
@@ -221,17 +224,20 @@ end
     figure (5);
     scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,3));
     hold on;
+    title ('Scatter plot of IV vs switch cost (word->colour)')
     xlabel ('TD unit inhibition of output units');
     ylabel ('Switch cost (word -> colour)');
     
     figure (6);
     scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,4));
     hold on;
+    title ('Scatter plot of IV vs switch cost (colour->word)')
     xlabel ('TD unit inhibition of output units');
     ylabel ('Switch cost (colour -> word)');
     
     % now scatter graph of RI vs. TSC
     figure (7);
+    title ('Scatter plot of Response Inhibition vs Task Switch Cost (word->colour)')
     scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,3));
     hold on;
     xlabel ('Response Inhibition (RTi - RTc)/cycles');
@@ -239,6 +245,7 @@ end
     
     figure (8);
     scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,4));
+    title ('Scatter plot of Response Inhbition vs Task Switch Cost (colour->word)')
     hold on;
     xlabel ('Response Inhibition (RTi - RTc)/cycles');
     ylabel ('Switch cost (colour -> word)');

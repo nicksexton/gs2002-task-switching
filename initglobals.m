@@ -12,15 +12,8 @@ TASKDEMAND_BIAS = -4
 TOPDOWN_CONTROL_STRENGTH = [6 15]
 LEARNING_RATE = 1.0
 
-%% Initialises model and global variables for task switching model
-
-units_wordout = [0 0 0];
-units_colourout = [0 0 0];
-
-units_wordin = [0 0 0];
-units_colourin = [0 0 0];
-units_taskdemand = [0 0]; % [word colour]
-
+% needed to not break compatability with earlier scripts
+initmodel;
 
 % module feed-forward weights
 weights_wordin_wordout     = [3.5 0.0 0.0; 0.0 3.5 0.0; 0.0 0.0 3.5];

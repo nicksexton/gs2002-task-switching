@@ -11,7 +11,7 @@ initglobals
 
 
 
-SUBJECTS = 200;
+SUBJECTS = 500;
 NOISE_TASKDEMAND = 1;   % controls SD of gaussian noise added to task demand 
                         % weights individually for each subject
 data_allsubs_colour_neutral = [];
@@ -20,11 +20,11 @@ data_allsubs_colour_incongruent = [];
             
                         
 % initstimuli 
-FIXED_BLOCKLENGTH = 50; % number of fixed block trials
-FIXED_RUNS = 50; % needs to be equal to BLOCKLENGTH
+FIXED_BLOCKLENGTH = 100; % number of fixed block trials
+FIXED_RUNS = FIXED_BLOCKLENGTH; % needs to be equal to BLOCKLENGTH
 MIXED_BLOCKLENGTH = 12; % needs to be 12 for mixed trials
 MIXED_RUNS = 4; % needs to be 4 for mixed trials
-BLOCKS = 50; % number of mixed block trials
+BLOCKS = 100; % number of mixed block trials
 
 % stimuli_fixed_word = stimblock_create (FIXED_BLOCKLENGTH, 1, FIXED_RUNS);
 stimuli_fixed_colour = stimblock_create (FIXED_BLOCKLENGTH, 2, FIXED_RUNS);
@@ -33,6 +33,7 @@ stimuli_fixed_colour = stimblock_create (FIXED_BLOCKLENGTH, 2, FIXED_RUNS);
 allsubs_IV_DV = [];
 
 % Loop - simulates 10 different subjects
+% NEW - PARALLEL LOOP
 for subject = 1:SUBJECTS
     
     initmodel;    

@@ -11,7 +11,7 @@ initglobals
 
 
 
-SUBJECTS = 500;
+SUBJECTS = 10;
 NOISE_TASKDEMAND = 1;   % controls SD of gaussian noise added to task demand 
                         % weights individually for each subject
 data_allsubs_colour_neutral = [];
@@ -127,7 +127,7 @@ fprintf ('\tRTi-RTc: %4.2f\n', DV_response_inhibition);
 
     output_mixed = output;
   
-    fprintf ('\n');
+    %fprintf ('\n');
 
     mean_RT = mean(allblocks_RTs);
     sd_RT = std(allblocks_RTs);

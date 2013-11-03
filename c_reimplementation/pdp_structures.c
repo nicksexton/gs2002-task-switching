@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "pdp_objects.h"
 #include "activation_functions.h"
 
 
@@ -14,19 +15,11 @@
 /* 3. dump all activation values (ie. for drawing a graph of act vs. time) */
 
 
-/* A layer of units */
-typedef struct layer {
-
-    struct layer * previous; // past iterations
-    struct layer * next;     // future iterations
-    int size;
-    double * units; // pointer to array which contains our data
-} layer;
 
 
-layer * layer_create(int size) {
-    layer * new_layer;
-    new_layer = (layer *)malloc (sizeof(layer));
+pdp_layer * layer_create(int size) {
+    pdp_layer * new_layer;
+    new_layer = (pdp_layer *)malloc (sizeof(pdp_layer));
     new_layer->previous = NULL;
     new_layer->next = NULL;
     new_layer->size = size;
@@ -36,14 +29,14 @@ layer * layer_create(int size) {
 }
 
 
-void layer_free_backward(layer * some_layer) {
+void layer_free_backward(pdp_layer * some_layer) {
     /* recursively frees all iterations by following *previous* links */
     if (some_layer == NULL) {
         printf ("end of list reached, all done!\n");
         return;
     }
     else {
-        layer * tmp;
+        pdp_layer * tmp;
         tmp = some_layer->previous;
         printf ("freeing memory at %p\n", some_layer);
         free (some_layer->units);
@@ -52,20 +45,58 @@ void layer_free_backward(layer * some_layer) {
     }
 }
 
+pdp_weights_matrix * pdp_weights_create(int size_input, int size_output) {
+  pdp_weights_matrix * new_weights;
+  new_weights = (pdp_weights_matrix*)malloc (sizeof(pdp_weights_matrix));
+  new_weights->size_input = size_input;
+  new_weights->size_output = size_output;
+  new_weights->weights = malloc (size_input * sizeof(double*));
+  
+  int i = 0;
+  for (i = 0; i < size_input; i++) {
+    new_weights->weights[i] = malloc(size_output * sizeof(double));
+  }
+
+  return new_weights;
+}
+
+
+
+
+
 
 int main () {
-    layer * a_layer_head;
-    layer * a_layer_tail;
+ 
 
-    /* a_layer = (layer *)malloc (sizeof(layer)); */
+    pdp_layer * a_layer_head;
+    pdp_layer * a_layer_tail;
+
+
+
+    /* a_layer = (pdp_layer *)malloc (sizeof(pdp_layer)); */
     a_layer_tail = layer_create(3);
     a_layer_head = a_layer_tail;
     a_layer_tail->units[0] = 0.5;
     a_layer_tail->units[1] = -0.5;
     a_layer_tail->units[2] = 1;
 
-    printf ("\n");
-    printf ("red = %2.1f, green = %2.1f, blue = %2.1f\n",
+
+
+    /* init some weights */
+    pdp_weights_matrix * some_weights;
+    some_weights = pdp_weights_create (3,5);
+    some_weights->weights[0][0] = 1;
+    some_weights->weights[0][1] = 3;
+    some_weights->weights[0][2] = 5;
+
+    printf ("\n some weights: %2.1f, %2.1f, %2.1f", some_weights->weights[0][0], 
+						     some_weights->weights[0][1],
+						     some_weights->weights[0][2]);
+
+
+
+     printf ("\n");
+     printf ("red = %2.1f, green = %2.1f, blue = %2.1f\n",
             a_layer_tail->units[0], a_layer_tail->units[1], a_layer_tail->units[2]);
 
     /* now iterate the layer multiplying by 1.2 */
@@ -75,7 +106,7 @@ int main () {
 
     int i;
     for (i = 0; i < 10; i++) {
-        layer * tmp = a_layer_tail;
+        pdp_layer * tmp = a_layer_tail;
         a_layer_tail = layer_create(3);
         a_layer_tail->previous = tmp;
         tmp->next = a_layer_tail;
@@ -90,7 +121,7 @@ int main () {
 
     printf ("dump data backwards:\n");
 
-    layer * layer_iterator = a_layer_tail;
+    pdp_layer * layer_iterator = a_layer_tail;
     while (layer_iterator != NULL) {
         printf ("red = %2.1f, green = %2.1f, blue = %2.1f\n", 
 		layer_iterator->units[0], layer_iterator->units[1], layer_iterator->units[2]);
@@ -108,4 +139,7 @@ int main () {
 
     layer_free_backward (a_layer_tail);
     return 0;
+
+
+
 }

@@ -27,7 +27,12 @@ typedef struct pdp_weights_matrix {
 
 
 
-pdp_layer * layer_create(int size); 
-void layer_free_backward(pdp_layer * some_layer);
+pdp_layer * pdp_layer_create(int size); 
+void pdp_layer_free_fromtail(pdp_layer * some_layer);
 
-pdp_weights_matrix * pdp_weights_create(int size_input, int size_output);
+pdp_weights_matrix * pdp_weights_create(int size_output, int size_input);
+void pdp_weights_set (pdp_weights_matrix * some_weights, 
+		      int size_output, int size_input, double * init_array);
+
+void pdp_weights_print(struct pdp_weights_matrix * a_weights_matrix);
+void pdp_weights_free (struct pdp_weights_matrix * some_weights);

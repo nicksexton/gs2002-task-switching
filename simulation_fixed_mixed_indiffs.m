@@ -11,7 +11,7 @@ initglobals
 
 
 
-SUBJECTS = 10;
+SUBJECTS = 3;
 NOISE_TASKDEMAND = 1;   % controls SD of gaussian noise added to task demand 
                         % weights individually for each subject
 data_allsubs_colour_neutral = [];
@@ -52,7 +52,6 @@ for subject = 1:SUBJECTS
     BLOCKLENGTH = FIXED_BLOCKLENGTH;
     STIM_THIS_BLOCK = stimuli_fixed_colour;
     run_block;
-    output_fixed_colour = output;
 
 
 
@@ -65,7 +64,10 @@ for subject = 1:SUBJECTS
     colour_congruent = [];
     colour_incongruent = [];
     colour_neutral = [];
-
+    
+    colour_congruent_error = [];
+    colour_incongruent_error = [];
+    colour_neutral_error = [];
 
   for trial = 1:FIXED_BLOCKLENGTH
 
@@ -84,20 +86,44 @@ for subject = 1:SUBJECTS
 
   % split colour naming blocks into stimulus type
     if (stimuli_fixed_colour(trial,3) == 0)
-      colour_neutral = [colour_neutral; output_fixed_colour(trial,:)];
+      if output(trial, 2) == 0
+        colour_neutral_error = [colour_neutral; output(trial,:)];
+      else 
+        colour_neutral = [colour_neutral; output(trial,:)];
+      end
 
     elseif (stimuli_fixed_colour(trial,3) == 1)
-      colour_congruent = [colour_congruent; output_fixed_colour(trial,:)];
-
+      if output(trial, 2) == 0
+        colour_congruent_error = [colour_congruent; output(trial,:)];
+      else
+        colour_congruent = [colour_congruent; output(trial,:)]; 
+      end
+            
     elseif (stimuli_fixed_colour(trial,3) == 2)
-      colour_incongruent = [colour_incongruent; output_fixed_colour(trial,:)];
+      if output(trial, 2) == 0
+        colour_incongruent_error = [colour_incongruent; output(trial,:)];
+      else
+        colour_incongruent = [colour_incongruent; output(trial,:)];
+      end
 
     end
 
   end
 
-DV_response_inhibition = mean(colour_incongruent(:,3)) - mean(colour_congruent(:,3));
-fprintf ('\tRTi-RTc: %4.2f\n', DV_response_inhibition);
+DV_response_inhibition = mean(colour_incongruent(:,3)) -...
+                         mean(colour_congruent(:,3));
+
+    if (size(colour_incongruent_error, 1) > 0) && ...
+            (size(colour_congruent_error, 1) > 0)
+        
+        DV_response_inhibition_error = ...
+            mean(colour_incongruent_error(:,3)) - mean(colour_congruent_error(:,3));
+    else
+        DV_response_inhibition_error = [];
+    end
+                           
+fprintf ('\tRTi-RTc: %4.2f (err: %4.2f)\n', ...
+        DV_response_inhibition, DV_response_inhibition_error);
 
 %% Now run mixed blocks simulation
 
@@ -120,9 +146,13 @@ fprintf ('\tRTi-RTc: %4.2f\n', DV_response_inhibition);
 
         % fprintf('\nSubject %d of %d: ', block, BLOCKS);
         run_block;
-        allblocks_RTs(block,:) = output(:,3)';
-        %allblocks_errors(subject,:) = output(:,2)';
-    
+        for i = 1:size(output,1)
+            if output(i,2) == 1    
+                allblocks_RTs(block,:) = output(:,3)';
+            else
+                allblocks_RTs_errors(block,:) = output(:,3)';
+            end
+        end
     end
 
     output_mixed = output;
@@ -130,22 +160,25 @@ fprintf ('\tRTi-RTc: %4.2f\n', DV_response_inhibition);
     %fprintf ('\n');
 
     mean_RT = mean(allblocks_RTs);
+    mean_RT_errors = mean(allblocks_RTs_errors);
     sd_RT = std(allblocks_RTs);
+    sd_RT_errors = std(allblocks_RTs_errors);
 
-    % error_rate = mean(allblocks_errors);
-
-    
+       
     DV_switchcost_wordcolour = (mean_RT(5) - sum(mean_RT(6:8)) / 3);
     DV_switchcost_colourword = (mean_RT(9) - sum(mean_RT(10:12)) / 3);
     
+    DV_switchcost_wordcolour_errors = (mean_RT_errors(5) - sum(mean_RT_errors(6:8)) / 3);
+    DV_switchcost_colourword_errors = (mean_RT_errors(9) - sum(mean_RT_errors(10:12)) / 3);
 
     
 
 %% Update allsubjects data
     % also put this in a matrix to plot scatter graphs of all subjects
     allsubs_IV_DV = [allsubs_IV_DV; ...
-            IV_parameter DV_response_inhibition ... 
-                DV_switchcost_wordcolour DV_switchcost_colourword];
+            IV_parameter DV_response_inhibition DV_response_inhibition_error ... 
+                DV_switchcost_wordcolour DV_switchcost_colourword ...
+                DV_switchcost_wordcolour_errors DV_switchcost_colourword_errors];
 
   %% aggregate data from all subjects
   
@@ -197,21 +230,22 @@ end
 
     % plot scatter graph of varying parameter vs. DV (RTi - RTc)
     figure (4);
-    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,2));
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,2), 'b');
     hold on;
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,3), 'r');
     title ('Scatter plot of IV vs RI score (RTi - RTc)')
     xlabel ('TD unit inhibition of output units');
     ylabel ('Response Inhibition score (RTi - RTc)');
     
     %% calculate correlations coefficients between IV and DVs
     correlation_IV_RI = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,2));
-    correlation_IV_TSwc = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,3));
-    correlation_IV_TScw = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,4));
-    correlation_RI_TSwc = corrcoef (allsubs_IV_DV(:,2), allsubs_IV_DV(:,3));
-    correlation_RI_TScw = corrcoef (allsubs_IV_DV(:,2), allsubs_IV_DV(:,4));
-    correlation_TSwc_TScw = corrcoef (allsubs_IV_DV(:,3), allsubs_IV_DV(:,4));
+    correlation_IV_TSwc = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,4));
+    correlation_IV_TScw = corrcoef (allsubs_IV_DV(:,1), allsubs_IV_DV(:,5));
+    correlation_RI_TSwc = corrcoef (allsubs_IV_DV(:,2), allsubs_IV_DV(:,4));
+    correlation_RI_TScw = corrcoef (allsubs_IV_DV(:,2), allsubs_IV_DV(:,5));
+    correlation_TSwc_TScw = corrcoef (allsubs_IV_DV(:,4), allsubs_IV_DV(:,5));
     
-    fprintf ('correlations:\n');
+    fprintf ('correlations (correct trials):\n');
     fprintf ('IV with RI: R = %4.3f\n', correlation_IV_RI(1,2));
     fprintf ('IV with TSwc: R = %4.3f\n', correlation_IV_TSwc(1,2));
     fprintf ('IV with TScw: R = %4.3f\n', correlation_IV_TScw(1,2));
@@ -223,30 +257,34 @@ end
     %% Plot graphs
     % plot scatter graph of varying IV parameter vs. DV (switch cost)
     figure (5);
-    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,3));
-    hold on;
     title ('Scatter plot of IV vs switch cost (word->colour)')
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,4), 'b'); % correct trials
+    hold on;
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,6), 'r'); % errors
     xlabel ('TD unit inhibition of output units');
     ylabel ('Switch cost (word -> colour)');
     
     figure (6);
-    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,4));
-    hold on;
     title ('Scatter plot of IV vs switch cost (colour->word)')
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,5), 'b'); % correct trials
+    hold on;
+    scatter (allsubs_IV_DV(:,1), allsubs_IV_DV(:,7), 'r'); % errors
     xlabel ('TD unit inhibition of output units');
     ylabel ('Switch cost (colour -> word)');
     
     % now scatter graph of RI vs. TSC
     figure (7);
-    title ('Scatter plot of Response Inhibition vs Task Switch Cost (word->colour)')
-    scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,3));
+    title ('Scatter plot of Response Inhibition (correct trials) vs Task Switch Cost (word->colour)')
+    scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,4), 'b'); % correct trials
+    scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,6), 'r'); % error trials
     hold on;
     xlabel ('Response Inhibition (RTi - RTc)/cycles');
     ylabel ('Switch cost (word -> colour)');
     
     figure (8);
-    scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,4));
-    title ('Scatter plot of Response Inhbition vs Task Switch Cost (colour->word)')
+    title ('Scatter plot of Response Inhbition (correct trials) vs Task Switch Cost (colour->word)')
+    scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,5), 'b'); % correct
+    scatter (allsubs_IV_DV(:,2), allsubs_IV_DV(:,7), 'r'); % error
     hold on;
     xlabel ('Response Inhibition (RTi - RTc)/cycles');
     ylabel ('Switch cost (colour -> word)');

@@ -11,8 +11,8 @@ initglobals
 
 
 
-SUBJECTS = 3;
-NOISE_TASKDEMAND = 1;   % controls SD of gaussian noise added to task demand 
+SUBJECTS = 500;
+NOISE_TASKDEMAND = 1.5;   % controls SD of gaussian noise added to task demand 
                         % weights individually for each subject
 data_allsubs_colour_neutral = [];
 data_allsubs_colour_congruent = [];

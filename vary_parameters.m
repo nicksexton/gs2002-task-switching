@@ -6,7 +6,7 @@
     % taskdemand_pos = +2.5 + NOISE_TASKDEMAND * randn(1);    
     % taskdemand_neg = - 2.5;
     taskdemand_neg = -2.5 + NOISE_TASKDEMAND * randn(1);
-    IV_parameter = taskdemand_pos;
+    IV_parameter = taskdemand_neg;
     
     % Print the subject number to the editor to monitor progress of simulation
     fprintf ('SUBJECT:%d\t TD weights %3.2f %3.2f\t', subject, taskdemand_pos, taskdemand_neg)

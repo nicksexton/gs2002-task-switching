@@ -12,8 +12,8 @@ initglobals
 
 
 SUBJECTS = 500;
-NOISE_TASKDEMAND = 1.5;   % controls SD of gaussian noise added to task demand 
-                        % weights individually for each subject
+NOISE_TASKDEMAND = 1.0;   % controls SD of gaussian noise added to task demand 
+                          % weights individually for each subject
 data_allsubs_colour_neutral = [];
 data_allsubs_colour_congruent = [];
 data_allsubs_colour_incongruent = [];
@@ -113,13 +113,13 @@ for subject = 1:SUBJECTS
   
   % calculate response inhibition metric
   
-    if (size(colour_incongruent 1) > 0) && ...
+    if (size(colour_incongruent, 1) > 0) && ...
             (size(colour_congruent, 1) > 0)
         
         DV_response_inhibition = ...
             mean(colour_incongruent(:,3)) - mean(colour_congruent(:,3));
     else
-        DV_response_inhibition = [];
+        DV_response_inhibition = NaN;
     end
   
   
@@ -130,7 +130,7 @@ for subject = 1:SUBJECTS
         DV_response_inhibition_error = ...
             mean(colour_incongruent_error(:,3)) - mean(colour_congruent_error(:,3));
     else
-        DV_response_inhibition_error = [];
+        DV_response_inhibition_error = NaN;
     end
                            
 fprintf ('\tRTi-RTc: %4.2f (err: %4.2f)\n', ...
@@ -186,9 +186,13 @@ fprintf ('\tRTi-RTc: %4.2f (err: %4.2f)\n', ...
 %% Update allsubjects data
     % also put this in a matrix to plot scatter graphs of all subjects
     allsubs_IV_DV = [allsubs_IV_DV; ...
-            IV_parameter DV_response_inhibition DV_response_inhibition_error ... 
-                DV_switchcost_wordcolour DV_switchcost_colourword ...
-                DV_switchcost_wordcolour_errors DV_switchcost_colourword_errors];
+                    IV_parameter ... % 1
+                    DV_response_inhibition ... % 2
+                    DV_response_inhibition_error ... % 3
+                    DV_switchcost_wordcolour ... % 4
+                    DV_switchcost_colourword ... % 5
+                    DV_switchcost_wordcolour_errors ... % 6
+                    DV_switchcost_colourword_errors]; % 7
 
   %% aggregate data from all subjects
   

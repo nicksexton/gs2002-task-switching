@@ -110,8 +110,19 @@ for subject = 1:SUBJECTS
 
   end
 
-DV_response_inhibition = mean(colour_incongruent(:,3)) -...
-                         mean(colour_congruent(:,3));
+  
+  % calculate response inhibition metric
+  
+    if (size(colour_incongruent 1) > 0) && ...
+            (size(colour_congruent, 1) > 0)
+        
+        DV_response_inhibition = ...
+            mean(colour_incongruent(:,3)) - mean(colour_congruent(:,3));
+    else
+        DV_response_inhibition = [];
+    end
+  
+  
 
     if (size(colour_incongruent_error, 1) > 0) && ...
             (size(colour_congruent_error, 1) > 0)
@@ -126,7 +137,6 @@ fprintf ('\tRTi-RTc: %4.2f (err: %4.2f)\n', ...
         DV_response_inhibition, DV_response_inhibition_error);
 
 %% Now run mixed blocks simulation
-
 
     BLOCKLENGTH = MIXED_BLOCKLENGTH;
  

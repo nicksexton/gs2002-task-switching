@@ -2,11 +2,20 @@
 %% Uncomment one of the following blocks to vary 
 %% Varying positive/negative task demand activation to output units
 % hold pos task demand activation constant
-    taskdemand_pos = 2.5;    
+    
     % taskdemand_pos = +2.5 + NOISE_TASKDEMAND * randn(1);    
     % taskdemand_neg = - 2.5;
-    taskdemand_neg = -2.5 + NOISE_TASKDEMAND * randn(1);
-    IV_parameter = taskdemand_neg;
+    %taskdemand_neg = -2.5 + NOISE_TASKDEMAND * randn(1);
+
+    
+    %% UNIFORM DISTRIBUTION
+    
+    taskdemand_pos = 3.75 + NOISE_TASKDEMAND * 4.1*(rand(1) - .5); % uniform distribution
+    taskdemand_neg = - 2.5;
+    
+    IV_parameter = taskdemand_pos;
+    
+    
     
     % Print the subject number to the editor to monitor progress of simulation
     fprintf ('SUBJECT:%d\t TD weights %3.2f %3.2f\t', subject, taskdemand_pos, taskdemand_neg)

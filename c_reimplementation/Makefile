@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-Wall -g
 
-all:  pdp_structures
+all:  pdp_objects
 
-pdp_structures: pdp_structures.o activation_functions.o 
-pdp_structures.o: pdp_structures.c  
+pdp_objects: pdp_objects.o activation_functions.o 
+pdp_objects.o: pdp_objects.c  
 activation_functions.o: activation_functions.c
 
-clean: rm -f pdp_structures pdp_structures.o activation_functions.o
+clean: rm -f pdp_objects pdp_objects.o activation_functions.o

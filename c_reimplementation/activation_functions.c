@@ -16,7 +16,7 @@ double act_gs(double net_input, double old_activation,
     }
 
 
-    printf ("activation function returning\n");
+    /*    printf ("activation function returning\n"); */
     
     return  old_activation + (step_size * eta);
 

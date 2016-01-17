@@ -15,7 +15,11 @@ Implementation of the Gilbert & Shallice 2002 task switching model in Octave
 
 simulation_fixedblocks.m      <- replication of straightforward stroop 
 			      interference/facilitation effect in fixed blocks
-			      (eg., all colour naming or all word reading) 
+			      (eg., all colour naming or all word reading)
+			      ie. Gilbert & Shallice (2002) figure 3
+
+simulation_mixedblocks.m      <- replication of alternating runs task switching
+			      paradigm (i.e. Gilbert & Shallice (2002) figure 4
 
 
 
@@ -27,9 +31,6 @@ run_trial.m 	  <- script which runs a single trial instance (terminates
 
 		  nb. yet to implement:
 		  [ ] preparation interval
-		  [ ] bottom-up connections to task demand units
-		  [ ] associative (hebbian) learning
-		  [ ] noise
 
 
 run_block.m	  <- runs a block of trials of length BLOCKLENGTH

@@ -72,4 +72,6 @@ error_rate = mean(allsubjects_errors);
 
 
  
-
+  % FOR THESIS VERSION - EXPORT DATA
+  save -ascii data/fig4_rts.txt allsubjects_RTs
+  save -ascii data/fig4_errors.txt allsubjects_errors

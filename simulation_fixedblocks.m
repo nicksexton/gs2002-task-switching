@@ -114,24 +114,34 @@ end
     %set (hist_incongruent, 'FaceColor', [.5 .0 .5], 'EdgeColor', [.5 .0 .5]);
     %axis ([0 400 0 40]);
     
-    %% Boxplots
-    figure (2);
+    ## %% Boxplots
+    ## figure (2);
    
-    % create matrix suitable for boxplotting
-    colour_data_all = ([ ...
-            colour_neutral(:,3) linspace(1,1, size(colour_neutral,1))'; ...
-            colour_congruent(:,3) linspace(2,2,size(colour_congruent,1))'; ...
-            colour_incongruent(:,3) linspace(3,3,size(colour_incongruent,1))' ...
-            ]);
+    ## % create matrix suitable for boxplotting
+    ## colour_data_all = ([ ...
+    ##         colour_neutral(:,3) linspace(1,1, size(colour_neutral,1))'; ...
+    ##         colour_congruent(:,3) linspace(2,2,size(colour_congruent,1))'; ...
+    ##         colour_incongruent(:,3) linspace(3,3,size(colour_incongruent,1))' ...
+    ##         ]);
    
-    %colour_data_boxplot_positions = [1 2 3];    
-    boxplot (colour_data_all(:,1), colour_data_all(:,2));
-    hold on;
+    ## %colour_data_boxplot_positions = [1 2 3];    
+    ## boxplot (colour_data_all(:,1), colour_data_all(:,2));
+    ## hold on;
 
-    set (gca, 'XTick', [1 2 3])
-    set (gca, 'XTickLabel', {'neutral', 'congruent', 'incongruent'});
-    ylim ([0 400]);
-    title ('Boxplot of Reaction Times for colour naming trials');
+    ## set (gca, 'XTick', [1 2 3])
+    ## set (gca, 'XTickLabel', {'neutral', 'congruent', 'incongruent'});
+    ## ylim ([0 400]);
+    ## title ('Boxplot of Reaction Times for colour naming trials');
     
 
  
+
+
+    %% FOR THESIS - EXPORT DATA
+    save -ascii data/fig3_colour_neutral.txt colour_neutral
+    save -ascii data/fig3_colour_congruent.txt colour_congruent
+    save -ascii data/fig3_colour_incongruent.txt colour_incongruent
+    save -ascii data/fig3_word_neutral.txt word_neutral
+    save -ascii data/fig3_word_congruent.txt word_congruent
+    save -ascii data/fig3_word_incongruent.txt word_incongruent
+    

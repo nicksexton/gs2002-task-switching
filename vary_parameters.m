@@ -10,7 +10,8 @@
     
     %% UNIFORM DISTRIBUTION
     
-    taskdemand_pos = 3.75 + NOISE_TASKDEMAND * 4.1*(rand(1) - .5); % uniform distribution
+    %taskdemand_pos = 3.75 + NOISE_TASKDEMAND * 4.1*(rand(1) - .5); % uniform distribution
+    taskdemand_pos = 2.5; % temp
     taskdemand_neg = - 2.5;
     
     IV_parameter = taskdemand_pos;

@@ -8,7 +8,7 @@ clear all;
 initglobals
 % initstimuli 
 
-BLOCKLENGTH = 400;
+BLOCKLENGTH = 100;
 RUNS = 400;
 
 stimuli_fixed_word = stimblock_create (BLOCKLENGTH, 1, RUNS);
@@ -37,7 +37,7 @@ colour_neutral = [];
 
 for trial = 1:BLOCKLENGTH
 
-
+  trial
 % split word reading blocks into stimulus type
   if (stimuli_fixed_word(trial,3) == 0)
     word_neutral = [word_neutral; output_fixed_word(trial,:)];
@@ -83,9 +83,11 @@ end
 
    
   figure (1);
-  plot ([1 2 3], mean_RT(2,:));
+  % plot ([1 2 3], mean_RT(2,:));
+  plot ([1 2 3], mean_RT(1,:));
   hold on;
-  h1 = errorbar([1 2 3], mean_RT(2,:), sd_RT(2,:));
+  plot ([1 2 3], mean_RT(2,:));
+  % h1 = errorbar([1 2 3; 1 2 3], mean_RT, sd_RT);
   %set(h1, 'marker', '+');
   %set(h1, 'linestyle', 'none');
 

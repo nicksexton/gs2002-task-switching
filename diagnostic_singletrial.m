@@ -3,12 +3,12 @@ clear all;
 close all;
 
 initglobals;
-
+NOISE = 0;
 
 
 units_wordin = [1 0 0] % [R G B]
 units_colourin = [0 1 0] % [R G B]
-topdown_input = [1 0] % top down control is either 1 (on) or 0 (off)
+topdown_input = [0 1] % top down control is either 1 (on) or 0 (off)
 
 
 run_trial

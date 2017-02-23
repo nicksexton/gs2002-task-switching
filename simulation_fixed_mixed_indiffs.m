@@ -11,8 +11,8 @@ initglobals
 
 
 
-SUBJECTS = 500;
-NOISE_TASKDEMAND = 1.0;   % controls SD of gaussian noise added to task demand 
+SUBJECTS = 50;
+NOISE_TASKDEMAND = 0.0;   % controls SD of gaussian noise added to task demand 
                           % weights individually for each subject
 data_allsubs_colour_neutral = [];
 data_allsubs_colour_congruent = [];
@@ -24,7 +24,9 @@ FIXED_BLOCKLENGTH = 100; % number of fixed block trials
 FIXED_RUNS = FIXED_BLOCKLENGTH; % needs to be equal to BLOCKLENGTH
 MIXED_BLOCKLENGTH = 12; % needs to be 12 for mixed trials
 MIXED_RUNS = 4; % needs to be 4 for mixed trials
-BLOCKS = 100; % number of mixed block trials
+% BLOCKS = 100; % number of mixed block trials
+
+BLOCKS = 10; % number of mixed block trials
 
 % stimuli_fixed_word = stimblock_create (FIXED_BLOCKLENGTH, 1, FIXED_RUNS);
 stimuli_fixed_colour = stimblock_create (FIXED_BLOCKLENGTH, 2, FIXED_RUNS);
@@ -149,7 +151,9 @@ fprintf ('\tRTi-RTc: %4.2f (err: %4.2f)\n', ...
     end
 
     % run simulations
-
+allblocks_RTs = [];
+allblocks_RTs_errors = [];
+    
     STIM_THIS_BLOCK = stimuli_mixed;
 
     for block = 1:BLOCKS

@@ -36,16 +36,30 @@ word.incongruent$task <- "word"
 
 fig3data <- rbind (colour.neutral, word.neutral, colour.congruent, word.congruent, colour.incongruent, word.incongruent)
 
+    # change order to match gilbert & shallice
+fig3data$congruency <- factor (fig3data$congruency, levels=c("neutral", "incongruent", "congruent"))
+
+
 replication.fig3<- ggplot (fig3data,  aes(x=congruency, y=RT, group=task, colour=task))
 replication.fig3 +
+    # set the zoom on the graph without chucking away data (as setting limits would)
+    coord_cartesian(ylim=c(25, 110)) +
     stat_summary(fun.y = mean, geom = "line", position = "dodge") +
     stat_summary(fun.y = mean, geom = "point") +
-        stat_summary(fun.data = mean_cl_boot,
-                     geom = "errorbar",
-                     # position = position_dodge(width = 0.2),
-                     width = 0.2) + 
-      labs (x = "stimulus congruency", y = "Simulated RT (Cycles)") +
-          ggtitle("Replication: Gilbert & Shallice (2002) Fig. 3")
+    stat_summary(fun.data = mean_cl_boot,
+          geom = "errorbar",
+#         position = position_dodge(width = 0.2),
+          width = 0.2) + 
+#      labs (x = "stimulus congruency", y = "Simulated RT (Cycles)") +
+    ggtitle("Replication: Gilbert & Shallice (2002) Fig. 3") +
+    theme_bw() + theme (legend.position="right") + 
+    scale_colour_grey(start = 0.1, end = 0.4) +
+    scale_y_continuous( name= "RT (model cycles)",
+          sec.axis = sec_axis(~ . * 5.8 +  318, # transformed sec axis to perform regression equation
+          name="simulated RT (ms)",
+          breaks = c(450, 550, 650, 750, 850, 950), 
+          labels = c("450", "550", "650", "750", "850", "950")))
+
 
 imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "gs_fig3.png")
 ggsave(filename=imageFile, width = 200, height = 200, units = "mm")

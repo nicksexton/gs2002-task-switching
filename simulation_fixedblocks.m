@@ -8,8 +8,8 @@ clear all;
 initglobals
 % initstimuli 
 
-BLOCKLENGTH = 100;
-RUNS = 400;
+BLOCKLENGTH = 10000; # use 100 for RT simulation, 1000 is for error rate data
+RUNS = 10000; # use 100 for RT simulation 
 
 stimuli_fixed_word = stimblock_create (BLOCKLENGTH, 1, RUNS);
 stimuli_fixed_colour = stimblock_create (BLOCKLENGTH, 2, RUNS);
@@ -37,7 +37,7 @@ colour_neutral = [];
 
 for trial = 1:BLOCKLENGTH
 
-  trial
+%  trial
 % split word reading blocks into stimulus type
   if (stimuli_fixed_word(trial,3) == 0)
     word_neutral = [word_neutral; output_fixed_word(trial,:)];

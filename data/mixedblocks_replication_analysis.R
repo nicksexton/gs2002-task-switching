@@ -68,7 +68,7 @@ replication.fig4 +
 
 
 imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig4_replicated_10000.png")
-ggsave(filename=imageFile, width = 120, height = 800, units = "mm")
+ggsave(filename=imageFile, width = 120, height = 80, units = "mm")
 
 
 replication.fig4.errors<- ggplot (fig4data.errors.long,  aes(x=trial.position, y=1-error.rate, group=task))
@@ -83,4 +83,4 @@ replication.fig4.errors +
           ggtitle("Replication: Gilbert & Shallice (2002) Fig. 4")
 
 imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig4_errors_replicated_10000.png")
-ggsave(filename=imageFile, width = 120, height = 800, units = "mm")
+ggsave(filename=imageFile, width = 120, height = 80, units = "mm")

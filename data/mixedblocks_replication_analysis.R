@@ -40,13 +40,16 @@ idtask <- function (position) {
 }
 
                                         # convert p1, p2 etc. into numeric position
-    fig4data.rt.long$trial.position <- as.numeric(gsub('p', '', fig4data.rt.long$trial.position))
+fig4data.rt.long$trial.position <- as.numeric(gsub('p', '', fig4data.rt.long$trial.position))
+fig4data.errors.long$trial.position <- as.numeric(gsub('p', '', fig4data.rt.long$trial.position))
 
 # assign task (1, 2) for drawing group lines to match the figure
 fig4data.rt.long$task <- sapply (fig4data.rt.long$trial.position, idtask)
+fig4data.errors.long$task <- sapply (fig4data.rt.long$trial.position, idtask)
     
 replication.fig4<- ggplot (fig4data.rt.long,  aes(x=trial.position, y=RT, group=task))
 replication.fig4 +
+    coord_cartesian(ylim=c(20, 140)) +
     stat_summary(fun.y = mean, geom = "line", position = "dodge") +
     stat_summary(fun.y = mean, geom = "point") +
         stat_summary(fun.data = mean_cl_boot,
@@ -60,17 +63,17 @@ replication.fig4 +
     scale_y_continuous( name= "RT (model cycles)",
        sec.axis = sec_axis(~ . * 5.8 +  318, # transformed sec axis to perform regression equation
        name="simulated RT (ms)",
-       breaks = c(450, 550, 650, 750, 850, 950), 
-       labels = c("450", "550", "650", "750", "850", "950")))
+       breaks = c(400, 500, 600, 700, 800, 900, 1000, 1100), 
+       labels = c("400", "500", "600", "700", "800", "900", "1000", "1100")))
 
 
-imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "gs_fig4.png")
-ggsave(filename=imageFile, width = 200, height = 200, units = "mm")
+imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig4_replicated_10000.png")
+ggsave(filename=imageFile, width = 120, height = 800, units = "mm")
 
 
-replication.fig4.errors<- ggplot (fig4data.errors.long,  aes(x=trial.position, y=error.rate))
+replication.fig4.errors<- ggplot (fig4data.errors.long,  aes(x=trial.position, y=1-error.rate, group=task))
 replication.fig4.errors +
-#    stat_summary(fun.y = mean, geom = "line", position = "dodge") +
+    stat_summary(fun.y = mean, geom = "line", position = "dodge") +
     stat_summary(fun.y = mean, geom = "point") +
         stat_summary(fun.data = mean_cl_boot,
                      geom = "errorbar",
@@ -79,5 +82,5 @@ replication.fig4.errors +
       labs (x = "trial position", y = "Simulated RT (Cycles)") +
           ggtitle("Replication: Gilbert & Shallice (2002) Fig. 4")
 
-imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "gs_fig4.png")
-ggsave(filename=imageFile, width = 200, height = 200, units = "mm")
+imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig4_errors_replicated_10000.png")
+ggsave(filename=imageFile, width = 120, height = 800, units = "mm")

@@ -10,7 +10,7 @@ initglobals
 
 BLOCKLENGTH = 12;
 RUNS = 4;
-SUBJECTS = 100;
+SUBJECTS = 4000; % use 100 for teaching
 
 stimuli_mixed = [];
 

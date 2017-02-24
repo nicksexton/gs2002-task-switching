@@ -52,7 +52,7 @@ replication.fig3 +
           width = 0.2) + 
 #      labs (x = "stimulus congruency", y = "Simulated RT (Cycles)") +
     ggtitle("Replication: Gilbert & Shallice (2002) Fig. 3") +
-    theme_bw() + theme (legend.position="right") + 
+    theme_bw() + theme (legend.position="bottom") + 
     scale_colour_grey(start = 0.1, end = 0.4) +
     scale_y_continuous( name= "RT (model cycles)",
           sec.axis = sec_axis(~ . * 5.8 +  318, # transformed sec axis to perform regression equation
@@ -61,5 +61,5 @@ replication.fig3 +
           labels = c("450", "550", "650", "750", "850", "950")))
 
 
-imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "gs_fig3.png")
-ggsave(filename=imageFile, width = 200, height = 200, units = "mm")
+imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig3_replicated.png")
+ggsave(filename=imageFile, width = 120, height = 100, units = "mm")

@@ -163,48 +163,49 @@ fig4data <- subset(fig4data.long, fig4data.long$condition.task != "First")
     
 replication.fig4<- ggplot (fig4data,  aes(x=preparation, y=RT, group=condition.group, colour=condition.task, linetype=condition.switch))
 replication.fig4 +
-    coord_cartesian(ylim=c(20, 140)) +
+    coord_cartesian(ylim=c(20, 120)) +
     stat_summary(fun.y = mean, geom = "line", position = "dodge") +
     stat_summary(fun.y = mean, geom = "point") +
         stat_summary(fun.data = mean_cl_boot,
                      geom = "errorbar",
                      # position = position_dodge(width = 0.2),
                      width = 0.2) + 
-    labs (x = "Preparation", y = "Simulated RT (Cycles)") +
+    labs (x = "Preparation Interval (cycles)", y = "Simulated RT (Cycles)") +
     ggtitle("Replication: Gilbert & Shallice (2002) Fig. 8") +
     theme_bw() + theme (legend.position="bottom") + 
         scale_colour_grey(start = 0.1, end = 0.4) +
             theme_bw() + theme (legend.position="bottom") + 
-                scale_colour_grey(start = 0.1, end = 0.4) 
             ## scale_x_continuous (name = "trial position",
             ##                     breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
             ##                     labels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")) +
-    ## scale_y_continuous( name= "RT (model cycles)",
-    ##    sec.axis = sec_axis(~ . * 5.8 +  318, # transformed sec axis to perform regression equation
-    ##    name="simulated RT (ms)",
-    ##    breaks = c(400, 500, 600, 700, 800, 900, 1000, 1100), 
-    ##    labels = c("400", "500", "600", "700", "800", "900", "1000", "1100")))
+    scale_y_continuous( name= "RT (model cycles)",
+       sec.axis = sec_axis(~ . * 5.8 +  318, # transformed sec axis to perform regression equation
+       name="simulated RT (ms)",
+       breaks = c(400, 500, 600, 700, 800, 900, 1000, 1100), 
+       labels = c("400", "500", "600", "700", "800", "900", "1000", "1100")))
 
 
-imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig4_replicated_10000.png")
+imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig8_replicated_rt.png")
 ggsave(filename=imageFile, width = 120, height = 80, units = "mm")
 
 
-replication.fig4.errors<- ggplot (fig4data.errors.long,  aes(x=trial.position, y=1-error.rate, group=task))
-replication.fig4.errors +
+replication.fig4.error<- ggplot (fig4data,  aes(x=preparation, y=1-error.rate, group=condition.group, colour=condition.task, linetype=condition.switch))
+replication.fig4.error +
+    coord_cartesian(ylim=c(0, 0.03)) +
     stat_summary(fun.y = mean, geom = "line", position = "dodge") +
     stat_summary(fun.y = mean, geom = "point") +
         stat_summary(fun.data = mean_cl_boot,
                      geom = "errorbar",
                      # position = position_dodge(width = 0.2),
-                     width = 0.2) +
-                         scale_x_continuous (name = "trial position",
-                                             breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-                                             labels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")) +
+                     width = 0.2) + 
+    labs (x = "Preparation Interval (cycles)", y = "Error Rate") +
+    ggtitle("Replication: Gilbert & Shallice (2002) Fig. 8") +
     theme_bw() + theme (legend.position="bottom") + 
-    scale_colour_grey(start = 0.1, end = 0.4) +
-                         labs (x = "trial position", y = "Error rate") +
-          ggtitle("Replication: Gilbert & Shallice (2002) Fig. 4")
+        scale_colour_grey(start = 0.1, end = 0.4) +
+            theme_bw() + theme (legend.position="bottom")
 
-imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig4_errors_replicated_10000.png")
+
+
+
+imageFile <- file.path("~/Dropbox/PhD/Thesis/replication/", "fig8_replicated_errors.png")
 ggsave(filename=imageFile, width = 120, height = 80, units = "mm")

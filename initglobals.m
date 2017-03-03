@@ -1,6 +1,5 @@
 %% Global parameters
 
-TIMEOUT = 500 % maximum number of cycles (to stop model running forever)
 ACTIVATION_MAX = 1.0
 ACTIVATION_MIN = -1.0
 RESPONSE_THRESHOLD = 0.15

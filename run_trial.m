@@ -12,7 +12,7 @@ t = 0;
 difference = 0; % between biggest and next biggest output
                 % activation (terminating condition)
 
-while (difference < RESPONSE_THRESHOLD) 
+while (difference < RESPONSE_THRESHOLD || t > TIMEOUT) 
 
   t = t + 1;  
 

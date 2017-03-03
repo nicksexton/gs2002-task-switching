@@ -8,13 +8,14 @@
 % units_colourin = [0 1 0] % [R G B]
 % topdown_input = [1 0] % top down control is either 1 (on) or 0 (off)
 
-TIMEOUT = 500 % max cycles, to stop model running forever
+TIMEOUT = 500; % max cycles, to stop model running forever if
+               % terminating condition is never met
 
 t = 0;
 difference = 0; % between biggest and next biggest output
                 % activation (terminating condition)
 
-while (difference < RESPONSE_THRESHOLD || t > TIMEOUT) 
+ while (difference < RESPONSE_THRESHOLD && t < TIMEOUT) 
 
   t = t + 1;  
 
